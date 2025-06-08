@@ -1,0 +1,35 @@
+[project]
+name = "botbowl"
+version = "1.1.0"
+description = "botbowl is a python package that includes a framework for playing and developing bots for Blood Bowl. Our aim is to develop a bot that can beat the best humans at the game."
+readme = "README.md"
+authors = [
+    { name = "njustesen" }
+]
+requires-python = ">=3.10"
+license-files = ["LICENSE"]
+dependencies = [
+    "cython==3.0.0b2",
+    "docker==6.1.1",
+    "flask==2.3.2",
+    "gym==0.26.2",
+    "jinja2==3.1.2",
+    "matplotlib==3.7.1",
+    "more-itertools==9.1.0",
+    "numpy==1.24.3",
+    "pytest==7.3.1",
+    "python-interface==1.6.1",
+    "requests==2.30.0",
+    "stopit==1.1.2",
+    "tabulate==0.9.0",
+    "untangle==1.2.1",
+]
+
+[build-system]
+requires = ["setuptools>=68", "wheel", "Cython>=3.0", "setuptools-rust>=1.11.1	"]
+build-backend = "setuptools.build_meta"
+
+[dependency-groups]
+dev = [
+    "pytest==7.3.1",
+]
