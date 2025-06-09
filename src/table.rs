@@ -9,9 +9,3 @@ pub enum Tile {
     #[pyo3(name = "HOME_TOUCHDOWN")]
     HomeTouchdown = 2,
 }
-
-#[pymodule]
-pub fn table(m: Bound<'_, PyModule>) -> Result<(), PyErr> {
-    m.add_class::<Tile>()?;
-    Ok(())
-}
