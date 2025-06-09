@@ -4,11 +4,11 @@ version = "1.1.0"
 edition = "2021"
 
 [package.metadata.setuptools-rust]
-name = "botbowl.rust_extension"
+name = "botbowl.rust_core"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
-name = "rust_extension"
+name = "rust_core"
 crate-type = ["cdylib"]
 
 [dependencies]

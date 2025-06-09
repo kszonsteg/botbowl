@@ -51,7 +51,7 @@ kwargs = {
     "include_package_data": True,
     "packages": find_packages(),
     "zip_safe": False,
-    "rust_extensions": [RustExtension("botbowl.rust_extension", path="Cargo.toml")],
+    "rust_extensions": [RustExtension("botbowl.rust_core", path="Cargo.toml")],
 }
 
 if compile_available:
