@@ -57,7 +57,8 @@ install_requires_packages = [
           'Cython==3.0.0b2',
           'pytest==7.3.1',
           'matplotlib==3.7.1',
-          'more_itertools==9.1.0'
+          'more_itertools==9.1.0',
+          'tabulate==0.9.0'
 ]
 
 kwargs = {
