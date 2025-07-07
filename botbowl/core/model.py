@@ -253,7 +253,8 @@ class PlayerState(Reversible):
             'taken_root': self.taken_root,
             'blood_lust': self.blood_lust,
             'has_blocked': self.has_blocked,
-            'failed_nega_trait_this_turn': self.failed_nega_trait_this_turn
+            'failed_nega_trait_this_turn': self.failed_nega_trait_this_turn,
+            'used_skills': [skill.name for skill in self.used_skills]
         }
 
     def reset(self):
