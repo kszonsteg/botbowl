@@ -7,7 +7,7 @@ This module contains all the procedures. Procedures contain the core part of the
 responsible for an isolated part of the game. Procedures are added to a stack, and the top-most procedure must finish
 before other procedures are run. Procedures can add other procedures to the stack simply by instantiating procedures.
 """
-
+import json
 
 from botbowl.core.pathfinding import Pathfinder
 from botbowl.core.util import compare_object
@@ -3761,6 +3761,18 @@ class EndTurn(Procedure):
     def __init__(self, game, kickoff=False):
         super().__init__(game)
         self.kickoff = kickoff
+        if game.save_state_path:
+            game_dir = os.path.join(game.save_state_path, game.game_id)
+            try:
+                os.mkdir(game_dir)
+            except FileExistsError:
+                pass
+            with open(os.path.join(game_dir, f"{game.save_counter}.json"), "w") as f:
+                if game.save_state_serializer:
+                    json.dump(game.save_state_serializer.to_json(game.state), f)
+                else:
+                    json.dump(game.to_json(), f)
+            game.save_counter += 1
 
     def step(self, action):
 

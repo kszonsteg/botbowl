@@ -12,7 +12,7 @@ from botbowl.core.load import *
 from botbowl.core.procedure import *
 from botbowl.core.forward_model import Trajectory, MovementStep, Step
 from copy import deepcopy
-from typing import Optional, Tuple, List, Union, Any
+from typing import Optional, Tuple, List, Union, Any, Callable
 
 
 class InvalidActionError(Exception):
@@ -37,6 +37,10 @@ class Game:
     action: Optional[Action]
     trajectory: Trajectory
     square_shortcut: List[List[Square]]
+    save_counter: int
+    save_state_path: Optional[str]
+    save_state_serializer: Optional[Callable[[GameState], None]]
+
 
     def __init__(self, game_id: str, home_team: Team, away_team: Team, home_agent: Agent, away_agent: Agent,
                  config: Configuration,
@@ -44,7 +48,10 @@ class Game:
                  ruleset: Optional[RuleSet] = None,
                  state: Optional[GameState] = None,
                  seed=None,
-                 record: bool = False):
+                 record: bool = False,
+                 save_state_path: str = None,
+                 save_state_serializer: Optional[Any] = None
+    ):
         assert config is not None
         assert home_team.team_id != away_team.team_id
         self.replay = Replay(replay_id=game_id) if record else None
@@ -64,6 +71,9 @@ class Game:
         self.action = None
         self.trajectory = Trajectory()
         self.square_shortcut = self.state.pitch.squares
+        self.save_counter = 0
+        self.save_state_path = save_state_path
+        self.save_state_serializer = save_state_serializer
 
     def to_json(self, ignore_reports: bool = False):
         return {
