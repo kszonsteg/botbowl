@@ -2448,6 +2448,18 @@ class EndPlayerTurn(Procedure):
     def __init__(self, game, player):
         super().__init__(game)
         self.player = player
+        if game.save_state_path:
+            game_dir = os.path.join(game.save_state_path, game.game_id)
+            try:
+                os.mkdir(game_dir)
+            except FileExistsError:
+                pass
+            with open(os.path.join(game_dir, f"{game.save_counter}.json"), "w") as f:
+                if game.save_state_serializer:
+                    json.dump(game.save_state_serializer.to_json(game.state), f)
+                else:
+                    json.dump(game.to_json(), f)
+            game.save_counter += 1
 
     def step(self, action):
         
