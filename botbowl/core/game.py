@@ -219,6 +219,19 @@ class Game:
 
             # if procedure is ready for input
             if done:
+                if (
+                    self.save_state_path
+                    and self.save_state_serializer
+                    and self.save_state_serializer.should_serialize(self.state)
+                ):
+                    game_dir = os.path.join(self.save_state_path, self.game_id)
+                    if not os.path.exists(game_dir):
+                        os.makedirs(game_dir)
+                    with open(
+                        os.path.join(game_dir, f"{self.save_counter}.json"), "w"
+                    ) as f:
+                        f.write(self.save_state_serializer.as_json(self.state))
+                    self.save_counter += 1
 
                 # If human player - wait for input
                 if self.actor is None or self.actor.human:
@@ -489,14 +502,6 @@ class Game:
         if self.replay is not None:
             if action is not None and action.action_type is not ActionType.PLACE_BALL:
                 self.replay.record_step(self)
-        if self.save_state_path and self.save_state_serializer:
-            if self.save_state_serializer.should_serialize(self.state):
-                game_dir = os.path.join(self.save_state_path, self.game_id)
-                if not os.path.exists(game_dir):
-                    os.makedirs(game_dir)
-                with open(os.path.join(game_dir, f"{self.save_counter}.json"), "w") as f:
-                        f.write(self.save_state_serializer.as_json(self.state))
-                self.save_counter += 1
 
 
         # Is game over
