@@ -3720,7 +3720,20 @@ class Touchdown(Procedure):
         self.eat_thrall = None 
         
     def start(self): 
-        self.handle_bloodlust = self.player == self.game.get_active_player() and self.player.state.blood_lust 
+        self.handle_bloodlust = self.player == self.game.get_active_player() and self.player.state.blood_lust
+        if (
+                self.game.save_state_path
+                and self.game.save_state_serializer
+                and self.game.save_state_serializer.should_serialize(self.game.state)
+        ):
+            game_dir = os.path.join(self.game.save_state_path, self.game.game_id)
+            if not os.path.exists(game_dir):
+                os.makedirs(game_dir)
+            with open(
+                    os.path.join(game_dir, f"{self.game.save_counter}.json"), "w"
+            ) as f:
+                f.write(self.game.save_state_serializer.as_json(self.game.state))
+            self.game.save_counter += 1
 
     def step(self, action):
         if self.handle_bloodlust: 
