@@ -6,6 +6,7 @@ Year: 2018
 This module contains the Game class, which is the main class and interface used to interact with a game in botbowl.
 """
 from contextlib import contextmanager
+from datetime import datetime
 import itertools
 
 from botbowl.core.load import *
@@ -204,7 +205,7 @@ class Game:
         # Set action as a property so other methods can access it
         self.action = action
 
-        pbar = tqdm(total=self.config.rounds * 2)
+        pbar = tqdm(total=self.config.rounds * 2, desc="Round: ")
         round_number = 0
         # Update game
         while True:
@@ -217,6 +218,7 @@ class Game:
                 diff = total_round - round_number
                 round_number = total_round
                 pbar.update(diff)
+                pbar.set_postfix(last_update=datetime.now().strftime("%H:%M:%S"))
 
             # Game over
             if self.state.game_over:
