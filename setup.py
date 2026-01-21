@@ -9,15 +9,15 @@ dir_of_file = os.path.dirname(__file__)
 cwd = os.getcwd()
 if dir_of_file != cwd:
     # We should make this warning obsolete..
-    print(f"WARNING: setup.py is being run from a different directory than the install script. This can cause strange errors"
-          f"Current directory='{cwd}', dir of file='{dir_of_file}'")
-
-
+    print(
+        f"WARNING: setup.py is being run from a different directory than the install script. This can cause strange errors"
+        f"Current directory='{cwd}', dir of file='{dir_of_file}'")
 
 try:
     error_msg = None
     from Cython.Build import cythonize
     import Cython.Compiler.Options
+
     Cython.Compiler.Options.annotate = True
     compile_available = True
 
@@ -40,25 +40,26 @@ except DistutilsPlatformError:
     error_msg = "No compiler found"
     compile_available = False
 
-#compile_available = False  # uncomment this to force the compilation.
+# compile_available = False  # uncomment this to force the compilation.
 
 files_to_compile = ["botbowl/core/pathfinding/cython_pathfinding.pyx"]
 
 install_requires_packages = [
-          'numpy==1.24.3',
-          'untangle==1.2.1',
-          'Flask==2.3.2',
-          'gym==0.26.2',
-          'Jinja2==3.1.2',
-          'docker==6.1.1',
-          'python-interface==1.6.1',
-          'stopit==1.1.2',
-          'requests==2.30.0',
-          'Cython==3.0.0b2',
-          'pytest==7.3.1',
-          'matplotlib==3.7.1',
-          'more_itertools==9.1.0',
-          'tabulate==0.9.0'
+    'numpy==1.24.3',
+    'untangle==1.2.1',
+    'Flask==2.3.2',
+    'gym==0.26.2',
+    'Jinja2==3.1.2',
+    'docker==6.1.1',
+    'python-interface==1.6.1',
+    'stopit==1.1.2',
+    'requests==2.30.0',
+    'Cython==3.0.0b2',
+    'pytest==7.3.1',
+    'matplotlib==3.7.1',
+    'more_itertools==9.1.0',
+    'tabulate==0.9.0',
+    'tqdm==4.67.1'
 ]
 
 kwargs = {
@@ -90,7 +91,7 @@ if compile_available:
                 shutil.copyfile(from_file, to_file)
                 copied_files += 1
 
-    #assert copied_files == len(files_to_compile), f"Wrong number if files copied. " \
+    # assert copied_files == len(files_to_compile), f"Wrong number if files copied. " \
     #                                              f"Supposed to copy {len(files_to_compile)} files " \
     #                                              f"but {copied_files} was copied. Probably a bug!"
     print("\nYou've built botbowl with cython.")

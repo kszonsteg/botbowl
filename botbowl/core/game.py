@@ -14,6 +14,7 @@ from botbowl.core.forward_model import Trajectory, MovementStep, Step
 from copy import deepcopy
 import os
 from typing import Optional, Tuple, List, Union, Any, Callable
+from tqdm import tqdm
 
 
 class InvalidActionError(Exception):
@@ -203,14 +204,23 @@ class Game:
         # Set action as a property so other methods can access it
         self.action = action
 
+        pbar = tqdm(total=self.config.rounds * 2)
+        round_number = 0
         # Update game
         while True:
 
             # Perform game step
             done = self._one_step(self.action)
 
+            total_round = self.state.half * self.config.rounds + self.state.round
+            if total_round > round_number:
+                diff = total_round - round_number
+                round_number = total_round
+                pbar.update(diff)
+
             # Game over
             if self.state.game_over:
+                pbar.close()
                 self._end_game()
                 break
 
