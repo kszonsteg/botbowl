@@ -212,7 +212,7 @@ class Game:
             # Perform game step
             done = self._one_step(self.action)
 
-            total_round = self.state.half * self.config.rounds + self.state.round
+            total_round = (self.state.half - 1) * self.config.rounds + self.state.round
             if total_round > round_number:
                 diff = total_round - round_number
                 round_number = total_round
